@@ -84,10 +84,13 @@
       // check if row[rowIndex] contains 1
       // if exists return true
       var row = this.rows()[rowIndex];
-      console.log(row);
+      var rowCounter = 0;
       for (var i = 0; i < row.length; i++) {
         if (row[i] === 1) {
-          return true;
+          rowCounter++;
+          if (rowCounter === 2) {
+            return true;
+          }
         }
       }
       // console.log(this.rows());
@@ -163,7 +166,22 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      var fullBoard = (this.rows());
+      // var columnIndex = fullBoard[majorDiagonalColumnIndexAtFirstRow];
+      var counter = 0;
+      var column = majorDiagonalColumnIndexAtFirstRow;
 
+      for (var i = 0; i < fullBoard.length; i++) {
+        var currentRow = fullBoard[i]; // row[0] + 1 currentRow[i + 1]
+        var currentColumn = currentRow[column];
+        if (currentColumn === 1) {
+          counter ++;
+          if (counter === 2) {
+            return true;
+          }
+        }
+        column += 1;
+      }
       return false; // fixme
     },
 
@@ -188,7 +206,7 @@
         }
         for (var b = k + 1; b < piecesArray.length; b++) {
 
-          if (Math.abs(piecesArray[b]['row'] - currentPiece['row']) === Math.abs(piecesArray[b]['column'] - currentPiece['column'])) {
+          if (piecesArray[b]['row'] - currentPiece['row'] === piecesArray[b]['column'] - currentPiece['column']) {
             return true;
           }
         }
@@ -214,35 +232,50 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-
+      var fullBoard = (this.rows());
+      // var columnIndex = fullBoard[majorDiagonalColumnIndexAtFirstRow];
+      var counter = 0;
+      var column = minorDiagonalColumnIndexAtFirstRow;
+      for (var i = 0; i < fullBoard.length; i++) {
+        var currentRow = fullBoard[i]; // row[0] + 1 currentRow[i + 1]
+        var currentColumn = currentRow[column];
+        if (currentColumn === 1) {
+          counter++;
+          if (counter === 2) {
+            return true;
+          }
+        }
+        column -= 1;
+      }
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      // var piecesArray = [];
-      // var fullBoard = (this.rows());
-      // for (var i = 0; i < fullBoard.length; i++) {
-      //   var currentRow = fullBoard[i];
-      //   for (var j = 0; j < currentRow.length; j++) {
-      //     if (currentRow[j] === 1) {
-      //       //create an array of objects with the pieces row/column as the values
-      //       piecesArray.push({'row': i, 'column': j});
-      //     }
-      //   }
-      // }
-      // for (var k = 0; k < piecesArray.length; k++) {
-      //   var currentPiece = piecesArray[k];
-      //   if (!piecesArray[k + 1]) {
-      //     return false;
-      //   }
-      //   for (var b = k + 1; b < piecesArray.length; b++) {
+      var piecesArray = [];
+      var fullBoard = (this.rows());
+      for (var i = 0; i < fullBoard.length; i++) {
+        var currentRow = fullBoard[i];
+        for (var j = 0; j < currentRow.length; j++) {
+          if (currentRow[j] === 1) {
+            //create an array of objects with the pieces row/column as the values
+            piecesArray.push({'row': i, 'column': j});
+          }
+        }
+      }
+      for (var k = 0; k < piecesArray.length; k++) {
+        var currentPiece = piecesArray[k];
+        if (!piecesArray[k + 1]) {
+          return false;
+        }
+        for (var b = k + 1; b < piecesArray.length; b++) {
 
-      //     if (Math.abs(piecesArray[b]['row'] - currentPiece['row']) === Math.abs(piecesArray[b]['column'] - currentPiece['column'])) {
-      //       return true;
-      //     }
-      //   }
-      // }
+          if (piecesArray[b]['row'] - currentPiece['row'] + piecesArray[b]['column'] - currentPiece['column'] === 0) {
+            return true;
+          }
+        }
+
+      }
       return false; // fixme
     }
 
