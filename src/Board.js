@@ -21,7 +21,8 @@
     rows: function() {
       return _(_.range(this.get('n'))).map(function(rowIndex) {
         return this.get(rowIndex);
-      }, this);
+      }, this); // _.range([start], stop, [step])
+      // A function to create flexibly-numbered lists of integers, handy for each and map loops. start, if omitted, defaults to 0; step defaults to 1. Returns a list of integers from start (inclusive) to stop (exclusive), incremented (or decremented) by step. Note that ranges that stop before they start are considered to be zero-length instead of negative — if you'd like a negative range, use a negative step.
     },
 
     togglePiece: function(rowIndex, colIndex) {
@@ -79,11 +80,36 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
+      // iterate through the row
+      // check if row[rowIndex] contains 1
+      // if exists return true
+      var row = this.rows()[rowIndex];
+      console.log(row);
+      for (var i = 0; i < row.length; i++) {
+        if (row[i] === 1) {
+          return true;
+        }
+      }
+      // console.log(this.rows());
       return false; // fixme
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      // check if row contains 1
+      var fullBoard = (this.rows());
+      for (var i = 0; i < fullBoard.length; i++) {
+        var currentRow = fullBoard[i];
+        var numberOfPieces = 0;
+        for (var j = 0; j < currentRow.length; j++) {
+          if (currentRow[j] === 1) {
+            numberOfPieces ++;
+          }
+          if (numberOfPieces === 2) {
+            return true;
+          }
+        }
+      }
       return false; // fixme
     },
 
@@ -94,11 +120,39 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      // iterate through rows
+      // check if rows[i][colIndex] = 1 > then yes conflict
+      var fullBoard = (this.rows());
+      var numberOfPieces = 0;
+      for (var i = 0; i < fullBoard.length; i++) {
+        if (fullBoard[i][colIndex] === 1) {
+          numberOfPieces++;
+        }
+        if (numberOfPieces > 1) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      //iterate over the fullBoard
+      //at each array in full board check the same index of the array
+      var fullBoard = (this.rows());
+      var n = fullBoard.length;
+      for (var i = 0; i < n; i++) {
+        var numberOfPieces = 0;
+        for (var j = 0; j < fullBoard.length; j++) {
+          currentRow = fullBoard[j];
+          if (currentRow[i] === 1) {
+            numberOfPieces++;
+          }
+          if (numberOfPieces > 1) {
+            return true;
+          }
+        }
+      }
       return false; // fixme
     },
 
@@ -109,6 +163,7 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+
       return false; // fixme
     },
 
