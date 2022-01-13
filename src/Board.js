@@ -169,6 +169,41 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      //iterate over the board searching for arrays with a value of 1
+      var piecesArray = [];
+      var fullBoard = (this.rows());
+      for (var i = 0; i < fullBoard.length; i++) {
+        var currentRow = fullBoard[i];
+        for (var j = 0; j < currentRow.length; j++) {
+          if (currentRow[j] === 1) {
+            //create an array of objects with the pieces row/column as the values
+            piecesArray.push({'row': i, 'column': j});
+          }
+        }
+      }
+      for (var k = 0; k < piecesArray.length; k++) {
+        var currentPiece = piecesArray[k];
+        if (!piecesArray[k + 1]) {
+          return false;
+        }
+        for (var b = k + 1; b < piecesArray.length; b++) {
+
+          if (Math.abs(piecesArray[b]['row'] - currentPiece['row']) === Math.abs(piecesArray[b]['column'] - currentPiece['column'])) {
+            return true;
+          }
+        }
+
+
+        // piecesArray[i] - access the obj key(row,col) - value (i,j)
+        // row += 1;
+        // column += 1;
+        // var rowIndex = piecesArray[i][row];
+        // var columnIndex = piecesArray[i][column];
+        // // check if rowInd + 1, col +1 is within piecesArray
+        // piecesArray.contains(piecesArray[k+1])
+
+      }
+
       return false; // fixme
     },
 
@@ -179,11 +214,35 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      // var piecesArray = [];
+      // var fullBoard = (this.rows());
+      // for (var i = 0; i < fullBoard.length; i++) {
+      //   var currentRow = fullBoard[i];
+      //   for (var j = 0; j < currentRow.length; j++) {
+      //     if (currentRow[j] === 1) {
+      //       //create an array of objects with the pieces row/column as the values
+      //       piecesArray.push({'row': i, 'column': j});
+      //     }
+      //   }
+      // }
+      // for (var k = 0; k < piecesArray.length; k++) {
+      //   var currentPiece = piecesArray[k];
+      //   if (!piecesArray[k + 1]) {
+      //     return false;
+      //   }
+      //   for (var b = k + 1; b < piecesArray.length; b++) {
+
+      //     if (Math.abs(piecesArray[b]['row'] - currentPiece['row']) === Math.abs(piecesArray[b]['column'] - currentPiece['column'])) {
+      //       return true;
+      //     }
+      //   }
+      // }
       return false; // fixme
     }
 
